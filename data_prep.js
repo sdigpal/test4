@@ -14,6 +14,15 @@ sequelize.authenticate().then(()=> console.log('Connection success.'))
 
 var fs = require("fs");
 var students=[];
+
+exports.initialize = function() {
+    return new Promise((resolve, reject) => {
+        sequelize.sync()
+        .then(() => resolve())
+        .catch(() => reject("unable to sync the database"));
+    });
+};
+
 exports.prep = ()=>{
     return new Promise((resolve,reject) => {
         sequelize.sync()
@@ -31,10 +40,16 @@ exports.bsd = ()=>{
 
 
 exports.cpa = ()=>{
-    return new Promise((resolve, reject)=>{
-       let results = students.filter(student => student.program == "CPA");
-       (results.length == 0)? reject("No CPA students."):resolve(results);
+    return new Promise((resolve, reject) => {
+        Student.findAll({
+            where: {
+                program: "CPA"
+            }
+        }).then(data => {
+            resolve(data)
+        }).catch(err => reject("no results returned"))
     });
+
 }
 exports.highGPA = ()=>{
     return new Promise((resolve, reject)=>{

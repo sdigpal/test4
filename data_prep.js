@@ -33,8 +33,13 @@ exports.prep = ()=>{
 
 exports.bsd = ()=>{
     return new Promise((resolve, reject)=>{
-       let results = students.filter(student => student.program == "BSD");
-       (results.length == 0)? reject("No BSD students."):resolve(results);
+       Student.findAll({
+        where: {
+            program: "BSD"
+        }
+       }).then(data => {
+        resolve(data)
+    }).catch(err => reject("no results returned"))
     });
 }
 

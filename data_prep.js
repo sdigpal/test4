@@ -1,15 +1,11 @@
 var fs = require("fs");
 var students=[];
 exports.prep = ()=>{
-   // console.log("Testing");
-   return new Promise((resolve, reject)=>{
-        fs.readFile("./students.json", (err, data)=>{
-            if (err) {reject("unable to read file.");}
-            students = JSON.parse(data);
-           // console.log(students);
-            resolve("File read success.");
-        }); 
-   });
+    return new Promise((resolve,reject) => {
+        sequelize.sync()
+        .then(resolve(Student.findAll()))
+        .catch(reject('no results returned'));
+    })
 };
 
 exports.bsd = ()=>{

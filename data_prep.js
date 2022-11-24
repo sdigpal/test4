@@ -100,12 +100,16 @@ exports.allStudents =()=>{
 }
 
 exports.addStudent= (stud)=>{
-    return new Promise((resolve, reject)=>{
-        stud.studId = students.length+1;
-        students.push(stud);
-        resolve();
-    });
-}
+    return new Promise((resolve,reject) => {
+        for (var i in stud) {
+            if (stud[i] == "") { stud[i] = null; }
+        }
+    
+        Student.create(stud)
+        .then(resolve(Student.findAll()))
+        .catch(reject('unable to add Student'))
+    })
+};
 
 exports.getStudent = (studId)=>{
     return new Promise((resolve, reject)=>{

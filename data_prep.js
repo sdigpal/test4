@@ -1,3 +1,17 @@
+const Sequelize = require('sequelize');
+var sequelize = new Sequelize('database', 'user', 'password', {
+ host: 'host',
+ dialect: 'postgres',
+ port: 5432,
+ dialectOptions: {
+ ssl: true
+},
+query:{raw: true} // update here, you. Need this
+}); 
+
+sequelize.authenticate().then(()=> console.log('Connection success.'))
+.catch((err)=>console.log("Unable to connect to DB.", err));
+
 var fs = require("fs");
 var students=[];
 exports.prep = ()=>{
